@@ -1,0 +1,39 @@
+#include <wx/msw/wx.rc>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 1,0,0
+FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+FILEFLAGS 0x1L
+#else
+FILEFLAGS 0x0L
+#endif
+FILEOS 0x4L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+
+{
+    BLOCK "StringFileInfo"
+    { 
+        BLOCK "040904b0"
+        {
+            VALUE "Comments",         "Software to simplify windows configuration such as turning off/on windows updates, blocking software/ports from network access, and DNS customization\0"
+            VALUE "CompanyName",      "Felisware\0"
+            VALUE "FileDescription",  "Easy Win Config\0"
+            VALUE "InternalName",     "Easy Win Config\0"
+            VALUE "LegalCopyright",   "GNU General Public License v3.0\0"
+            VALUE "OriginalFilename", "Easy Win Config.exe\0"
+            VALUE "ProductName",      "Easy Win Config\0"
+            VALUE "ProductVersion",   "2022 Agustus\0"
+        } 
+    }
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 1200
+    }
+}
+
+appicon ICON "Assets\\Icon\\app.ico"
+not RCDATA "Assets\\Icon\\not.png"
+ok RCDATA "Assets\\Icon\\ok.png"
+plus RCDATA "Assets\\Icon\\plus.png"
