@@ -15,7 +15,6 @@ firewall_dialog :: firewall_dialog (const wxString &title, const wxPoint &pos, c
     wxFont default_font = wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Segoe UI"));
 
     this->SetIcon(wxIcon("appicon"));
-    this->CenterOnScreen();
     this->SetBackgroundColour(wxColour(dark));
     this->SetForegroundColour(wxColour(yellow));
     this->SetFont(default_font);
@@ -33,6 +32,7 @@ firewall_dialog :: firewall_dialog (const wxString &title, const wxPoint &pos, c
     mainsizer->Add(box_name, 0, wxALL, 5);
     
     file_choose = new wxRadioButton(this, wxID_ANY, "File/Software", wxDefaultPosition, wxDefaultSize);
+    file_choose->SetValue(true);
     mainsizer->Add(file_choose, 0, wxALL, 10);
     fileselect = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, "Select File or Software", "*", wxDefaultPosition, wxDefaultSize);
     mainsizer->Add(fileselect, 0, wxEXPAND|wxLEFT|wxRIGHT, 20);
@@ -44,13 +44,15 @@ firewall_dialog :: firewall_dialog (const wxString &title, const wxPoint &pos, c
     wxBoxSizer *portbox = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *labelnumber = new wxStaticText(this, wxID_ANY, "Number Port", wxDefaultPosition, wxDefaultSize);
     portbox->Add(labelnumber, 0, wxALL, 5);
-    number_input = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize);
+    number_input = new wxTextCtrl(this, wxID_ANY, "0", wxDefaultPosition, wxDefaultSize);
+    number_input->Disable();
     portbox->Add(number_input, 0, wxALL, 5);
     mainsizer->Add(portbox, 1, wxLEFT, 15);
 
     wxBoxSizer *action_btn = new wxBoxSizer(wxHORIZONTAL);
     apply_btn = new wxButton(this, wxID_ANY, "Apply", wxDefaultPosition, normal_btn);
     apply_btn->SetBitmap(wxBITMAP_PNG(ok));
+    apply_btn->Disable();
     action_btn->Add(apply_btn, 0, wxALL, 5);
     cancel_btn = new wxButton(this, wxID_ANY, "Cancel", wxDefaultPosition, normal_btn);
     cancel_btn->SetBitmap(wxBITMAP_PNG(not));

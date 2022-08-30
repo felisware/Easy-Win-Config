@@ -9,6 +9,7 @@ class main_window : public wxFrame{
     //make widgets accessible on main.cpp
     
     //page win update
+    wxBoxSizer *winupdate_vertical;
     wxStaticText *statusupdate;
     wxCheckBox *advanced;
     wxPanel *advanced_panel;
@@ -31,6 +32,10 @@ class main_window : public wxFrame{
     wxButton *reset;
 
     main_window(const wxString &title, const wxPoint &pos, const wxSize &size);
+
+    //create function for widgets event
+    void show_hide_advanced(wxCommandEvent &e);//to show and hide advance panel
+    void show_blocking_dialog(wxCommandEvent &e);//to show blocking Dialog
 };
 
 #endif

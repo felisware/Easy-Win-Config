@@ -15,6 +15,9 @@ class firewall_dialog : public wxDialog{
 	wxButton *cancel_btn;
 
     firewall_dialog(const wxString &title, const wxPoint &pos, const wxSize &size);
+
+	//create function for widgets event
+    void close_dialog(wxCommandEvent &e);//to close blocking Dialog
 };
 
 #endif
