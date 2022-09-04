@@ -3,7 +3,8 @@
 #include <wx/wx.h>
 #include <wx/filepicker.h>
 
-class firewall_dialog : public wxDialog{
+class firewall_dialog : public wxDialog
+{
     public:
     //make widgets accessible on main.cpp
 	wxTextCtrl *name_input;

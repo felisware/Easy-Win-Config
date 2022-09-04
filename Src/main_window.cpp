@@ -34,6 +34,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     winupdate_title->SetFont(title_font);
     winupdate_vertical->Add(winupdate_title, 0, wxALL|wxALIGN_CENTER_HORIZONTAL,20);
     statusupdate = new wxStaticText(winupdate, wxID_ANY, "Get windows update Status...", wxDefaultPosition, wxDefaultSize);
+    statusupdate->SetFont(wxFont( 9, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
     winupdate_vertical->AddSpacer(10);
     winupdate_vertical->Add(statusupdate, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
     winupdate_vertical->AddSpacer(10);
@@ -59,6 +60,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     winupdate_vertical->Hide(advanced_panel);
     winupdate_vertical->Layout();
     action = new wxButton(winupdate, wxID_ANY, "Loading...", wxDefaultPosition, normal_btn);
+    action->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     action->Disable();
     winupdate_vertical->Add(action, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
     winupdate->SetSizer(winupdate_vertical);
@@ -78,12 +80,15 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     wxBoxSizer *blocking_horizontal = new wxBoxSizer(wxHORIZONTAL);
     add_btn = new wxButton(blocking, wxID_ANY, "Add", wxDefaultPosition, normal_btn);
     add_btn->SetBitmap(wxBITMAP_PNG(plus));
+    add_btn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));;
+    blocking_horizontal->Add(add_btn, 0, wxALL, 5);
     remove_btn = new wxButton(blocking, wxID_ANY, "Remove", wxDefaultPosition, normal_btn);
     remove_btn->SetBitmap(wxBITMAP_PNG(remove));
+    remove_btn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
+    blocking_horizontal->Add(remove_btn, 0, wxALL, 5);
     refresh_btn = new wxButton(blocking, wxID_ANY, "Refresh", wxDefaultPosition, normal_btn);
     refresh_btn->SetBitmap(wxBITMAP_PNG(refresh));
-    blocking_horizontal->Add(add_btn, 0, wxALL, 5);
-    blocking_horizontal->Add(remove_btn, 0, wxALL, 5);
+    refresh_btn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     blocking_horizontal->Add(refresh_btn, 0, wxALL, 5);
     blocking_vertical->Add(blocking_horizontal, 0, wxALIGN_RIGHT|wxALL, 5);
     blocking->SetSizer(blocking_vertical);
@@ -129,10 +134,12 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     wxBoxSizer *btn_actionlocation = new wxBoxSizer(wxHORIZONTAL);
     apply = new wxButton(customdns, wxID_ANY, "Apply", wxDefaultPosition, normal_btn);
     apply->SetBitmap(wxBITMAP_PNG(ok));
+    apply->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     apply->Disable();
     btn_actionlocation->Add(apply, 0, wxALL, 5);
     reset = new wxButton(customdns, wxID_ANY, "Reset", wxDefaultPosition, normal_btn);
     reset->SetBitmap(wxBITMAP_PNG(not));
+    reset->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     reset->Disable();
     btn_actionlocation->Add(reset, 0, wxALL, 5);
     customdns_vertical->Add(btn_actionlocation, 0, wxALIGN_RIGHT|wxALL, 5);

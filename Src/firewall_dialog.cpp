@@ -35,6 +35,7 @@ firewall_dialog :: firewall_dialog (const wxString &title, const wxPoint &pos, c
     file_choose->SetValue(true);
     mainsizer->Add(file_choose, 0, wxALL, 10);
     fileselect = new wxFilePickerCtrl(this, wxID_ANY, wxEmptyString, "Select File or Software", "*", wxDefaultPosition, wxDefaultSize);
+    fileselect->SetLabelMarkup("");
     mainsizer->Add(fileselect, 0, wxEXPAND|wxLEFT|wxRIGHT, 20);
     mainsizer->AddSpacer(10);
 
@@ -52,10 +53,12 @@ firewall_dialog :: firewall_dialog (const wxString &title, const wxPoint &pos, c
     wxBoxSizer *action_btn = new wxBoxSizer(wxHORIZONTAL);
     apply_btn = new wxButton(this, wxID_ANY, "Apply", wxDefaultPosition, normal_btn);
     apply_btn->SetBitmap(wxBITMAP_PNG(ok));
+    apply_btn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     apply_btn->Disable();
     action_btn->Add(apply_btn, 0, wxALL, 5);
     cancel_btn = new wxButton(this, wxID_ANY, "Cancel", wxDefaultPosition, normal_btn);
     cancel_btn->SetBitmap(wxBITMAP_PNG(not));
+    cancel_btn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     action_btn->Add(cancel_btn, 0, wxALL, 5);
     mainsizer->Add(action_btn, 0, wxALIGN_RIGHT|wxALL, 5);
 

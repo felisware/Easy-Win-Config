@@ -4,7 +4,8 @@
 #include <wx/notebook.h>
 #include <wx/hyperlink.h>
 
-class main_window : public wxFrame{
+class main_window : public wxFrame
+{
     public:
     //make widgets accessible on main.cpp
     
@@ -36,6 +37,7 @@ class main_window : public wxFrame{
     //create function for widgets event
     void show_hide_advanced(wxCommandEvent &e);//to show and hide advance panel
     void show_blocking_dialog(wxCommandEvent &e);//to show blocking Dialog
+    void action_Clicked(wxCommandEvent &e);//add event to action button if clicked
 };
 
 #endif
