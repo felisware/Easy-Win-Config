@@ -148,7 +148,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     customdns->SetSizer(customdns_vertical);
 
     //this my website link :)
-    wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "https://felisware.com", wxDefaultPosition, wxDefaultSize);
+    wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "https://...", wxDefaultPosition, wxDefaultSize);
     mainsizer->Add(pagesystem, 1, wxEXPAND);
     mainsizer->Add(myweb, 0, wxALIGN_BOTTOM|wxALL, 5);
     this->SetSizer(mainsizer);

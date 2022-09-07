@@ -283,6 +283,7 @@ void main_window :: apply_dns_conf(wxCommandEvent &e){
     }
 }
 
+//reset adapter dns setting to DHCP or automatic
 void main_window :: reset_dns_conf(wxCommandEvent &e){
     string paths = "SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\Interfaces\\";
     paths += GUID_adapter.at(interfaces->GetSelection());
