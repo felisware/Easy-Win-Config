@@ -21,7 +21,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     this->SetBackgroundColour(wxColour(255, 255, 255));
     this->SetFont(default_font);
     wxBoxSizer *mainsizer = new wxBoxSizer(wxVERTICAL);
-    wxNotebook *pagesystem = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    pagesystem = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 
     //create page winupdate
     wxPanel *winupdate = new wxPanel(pagesystem,wxID_ANY, wxDefaultPosition, wxDefaultSize);
@@ -121,13 +121,15 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     wxBoxSizer *custom_horizontal1 = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *preferedlabel =  new wxStaticText(customdns, wxID_ANY, "Prefered DNS  ", wxDefaultPosition, wxDefaultSize);
     custom_horizontal1->Add(preferedlabel, 0, wxALL, 5);
-    prefereddnsinput = new wxTextCtrl(customdns, wxID_ANY, "8.8.8.8", wxDefaultPosition, wxDefaultSize);
+    prefereddnsinput = new wxTextCtrl(customdns, wxID_ANY, "example 8.8.8.8", wxDefaultPosition, wxDefaultSize);
+    prefereddnsinput->Disable();
     custom_horizontal1->Add(prefereddnsinput, 0, wxALL, 1);
     custombox->Add(custom_horizontal1, 0, wxALL, 5);
     wxBoxSizer *custom_horizontal2 = new wxBoxSizer(wxHORIZONTAL);
     wxStaticText *alternatelabel =  new wxStaticText(customdns, wxID_ANY, "Alternate DNS ", wxDefaultPosition, wxDefaultSize);
     custom_horizontal2->Add(alternatelabel, 0, wxALL, 5);
-    alternatednsinput = new wxTextCtrl(customdns, wxID_ANY, "1.1.1.1", wxDefaultPosition, wxDefaultSize);
+    alternatednsinput = new wxTextCtrl(customdns, wxID_ANY, "example 1.1.1.1", wxDefaultPosition, wxDefaultSize);
+    alternatednsinput->Disable();
     custom_horizontal2->Add(alternatednsinput, 0, wxALL, 1);
     custombox->Add(custom_horizontal2, 0, wxALL, 5);
     customdns_vertical->Add(custombox, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 2);
