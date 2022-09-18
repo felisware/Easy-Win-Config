@@ -1,3 +1,13 @@
+/**
+ * @file resources.rc
+ * @author han (hans69@felisware.com)
+ * @brief This resource file contains detailed file information and assets included in the .exe file
+ * @version 1.0
+ * @date 03-09-2022
+ * 
+ * @copyright GNU General Public License v3.0
+ * 
+ */
 #include <wx/msw/wx.rc>
 
 VS_VERSION_INFO VERSIONINFO
