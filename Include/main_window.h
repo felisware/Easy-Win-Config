@@ -39,6 +39,8 @@ class main_window : public wxFrame
     void change_page(wxBookCtrlEvent &e);//run spesific task every page selection is changed
     void show_hide_advanced(wxCommandEvent &e);//to show and hide advance panel
     void action_Clicked(wxCommandEvent &e);//confuguration windows update service action
+    void delete_fwrule(wxCommandEvent &e);//delete firewall rule selected
+    void refresh_list(wxCommandEvent &e);//refresh blocked list
     void show_blocking_dialog(wxCommandEvent &e);//to show blocking Dialog
     void get_data_selected(wxCommandEvent &e);//check if selected choice not default
     void is_auto(wxCommandEvent &e);//setting for automatic dns configuration
