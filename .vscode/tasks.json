@@ -1,0 +1,90 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+
+		{
+			"type": "process",
+			"label": "Build 32Bit",
+			"command": "g++.exe",
+			"args": [
+				"${workspaceFolder}\\Src\\*.cpp", "${workspaceFolder}\\Assets\\Bin\\resources32.o",
+				"-o", "${workspaceFolder}\\App\\Easy Win Config 32Bit.exe",
+
+				"-I", "${env:WXWIN}\\include",
+				"-I", "${env:WXWIN}\\lib\\gcc_lib_32\\mswu",
+				"-I", "${workspaceFolder}\\include",
+
+				"-L", "${env:WXWIN}\\lib\\gcc_lib_32",
+
+				"-std=c++17", "-static-libgcc", "-static-libstdc++", "-s", "-DwxDEBUG_LEVEL=0", "-m32",
+				
+				"-mwindows",
+
+				"-lwxmsw32u_core", "-lwxbase32u", "-lwxpng", "-lwxzlib",
+				"-lcomdlg32", "-lgdi32", "-lcomctl32", "-lole32", "-loleaut32", "-ldmoguids", "-luuid", "-lwinspool", "-lz", "-luxtheme", "-loleacc", "-lshlwapi", "-lversion", "-liphlpapi"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+		{
+			"type": "process",
+			"label": "Build 64Bit",
+			"command": "g++.exe",
+			"args": [
+				"${workspaceFolder}\\Src\\*.cpp", "${workspaceFolder}\\Assets\\Bin\\resources64.o",
+				"-o", "${workspaceFolder}\\App\\Easy Win Config 64Bit.exe",
+
+				"-I", "${env:WXWIN}\\include",
+				"-I", "${env:WXWIN}\\lib\\gcc_lib_64\\mswu",
+				"-I", "${workspaceFolder}\\include",
+
+				"-L", "${env:WXWIN}\\lib\\gcc_lib_64",
+
+				"-std=c++17", "-static-libgcc", "-static-libstdc++", "-s", "-DwxDEBUG_LEVEL=0",
+				
+				"-mwindows",
+
+				"-lwxmsw32u_core", "-lwxbase32u", "-lwxpng", "-lwxzlib",
+				"-lcomdlg32", "-lgdi32", "-lcomctl32", "-lole32", "-loleaut32", "-ldmoguids", "-luuid", "-lwinspool", "-lz", "-luxtheme", "-loleacc", "-lshlwapi", "-lversion", "-liphlpapi"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+		{
+			"type": "process",
+			"label": "Compile Resources 32Bit",
+			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
+			"args": [
+				"-i", "${workspaceFolder}\\resources.rc",
+				"-o", "${workspaceFolder}\\Assets\\Bin\\resources32.o",
+				"-I", "${env:WXWIN}\\include",
+				"--target=pe-i386"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+		{
+			"type": "process",
+			"label": "Compile Resources 64Bit",
+			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
+			"args": [
+				"-i", "${workspaceFolder}\\resources.rc",
+				"-o", "${workspaceFolder}\\Assets\\Bin\\resources64.o",
+				"-I", "${env:WXWIN}\\include"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
