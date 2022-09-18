@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <winsock2.h>
 #include <iphlpapi.h>
 #include <tchar.h>
@@ -18,6 +19,8 @@ wxIMPLEMENT_APP(program);
 //global declaration :)
 string winupdate_status;
 vector<string> GUID_adapter;
+vector<string> ID_FwRule;
+//Color Variable
 wxColour dark = wxColour(1, 22, 39);
 wxColour red = wxColour(247, 23, 53);
 wxColour green = wxColour(29, 215, 85);
@@ -29,6 +32,7 @@ firewall_dialog *dialog_form;
 //overloading function
 string winupadate_isrunning();
 void ui_status_winupdate();
+void get_blocked_list();
 void get_allinterface();
 
 bool program :: OnInit()
@@ -49,6 +53,8 @@ bool program :: OnInit()
     main_form->action->Bind(wxEVT_BUTTON, main_window :: action_Clicked, main_form);
     //block page
     main_form->add_btn->Bind(wxEVT_BUTTON, main_window :: show_blocking_dialog, main_form);
+    main_form->remove_btn->Bind(wxEVT_BUTTON, main_window :: delete_fwrule, main_form);
+    main_form->refresh_btn->Bind(wxEVT_BUTTON, main_window :: refresh_list, main_form);
     //custom dns page
     main_form->interfaces->Bind(wxEVT_CHOICE, main_window :: get_data_selected, main_form);
     main_form->defaultdns->Bind(wxEVT_RADIOBUTTON, main_window :: is_auto, main_form);
@@ -70,8 +76,10 @@ void main_window :: change_page(wxBookCtrlEvent &e)
     if(e.GetSelection() == 0){//this winupdate page
         winupdate_status = winupadate_isrunning();
         ui_status_winupdate();
-    }else if (e.GetSelection() == 1){//this block page
-        //code here//
+    }else if (e.GetSelection() == 1){//this block 
+        ID_FwRule.clear();
+        list_blocked->Clear();
+        get_blocked_list();
     }else if (e.GetSelection() == 2){//this custom dns page
         interfaces->Clear();
         interfaces->Append("Select...");
@@ -108,6 +116,9 @@ void main_window :: show_blocking_dialog(wxCommandEvent &e)
     dialog_form = new firewall_dialog("Blocking Dialog", wxDefaultPosition, wxSize(320,325));
 
     //binding function widgets event on dialog_form
+    dialog_form->file_choose->Bind(wxEVT_RADIOBUTTON, firewall_dialog :: use_file, dialog_form);
+    dialog_form->port_choose->Bind(wxEVT_RADIOBUTTON, firewall_dialog :: use_port, dialog_form);
+    dialog_form->apply_btn->Bind(wxEVT_BUTTON, firewall_dialog :: create_fwrule, dialog_form);
     dialog_form->cancel_btn->Bind(wxEVT_BUTTON, firewall_dialog :: close_dialog, dialog_form);
 
     dialog_form->SetParent(main_form);
@@ -138,8 +149,7 @@ void main_window :: action_Clicked(wxCommandEvent &e)
     }
 
     //change service status
-    if(statustarget->IsChecked())
-    {
+    if(statustarget->IsChecked()){
         if (winupdate_status == "RUNNING"){
             auto ssp = SERVICE_STATUS_PROCESS{ 0 };
             ControlService(svc, SERVICE_CONTROL_STOP, reinterpret_cast<LPSERVICE_STATUS>(&ssp));
@@ -161,11 +171,96 @@ void main_window :: action_Clicked(wxCommandEvent &e)
     ui_status_winupdate();
 }
 
+void firewall_dialog :: use_file(wxCommandEvent &e)
+{
+    if (e.IsChecked()){
+        fileselect->Enable();
+        number_input->SetValue("0");
+        number_input->Disable();
+        type_port->Disable();
+    }  
+}
+
+void firewall_dialog :: use_port(wxCommandEvent &e)
+{
+    if (e.IsChecked()){
+        number_input->Enable();
+        type_port->Enable();
+        fileselect->SetPath("");
+        fileselect->Disable();   
+    }
+}
+
+void firewall_dialog :: create_fwrule(wxCommandEvent &e)
+{
+    if (fileselect->GetPath() != "" || number_input->GetValue() != "0"){
+        string protocol;
+        if (type_port->GetStringSelection() == "TCP"){
+            protocol = "6";
+        }else if (type_port->GetStringSelection() == "UDP"){
+            protocol = "17";
+        }
+        
+        string value;
+        string type_input;
+        if (fileselect->GetPath() != ""){
+            value = "v2.31|Action=Block|Active=TRUE|Dir=Out|App=";
+            value += fileselect->GetPath();
+            value += "|Name=";
+            value += name_input->GetValue();
+            value += "|";
+        }else if (number_input->GetValue() != "0"){
+            value = "v2.31|Action=Block|Active=TRUE|Dir=Out|Protocol=";
+            value += protocol; value += "|RPort=";
+            value += number_input->GetValue();
+            value += "|Name=";
+            value += name_input->GetValue();
+            value += "|";
+        }
+        
+        HKEY registry;
+        if (name_input->GetValue() != "" && RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\", 0, KEY_SET_VALUE, &registry) == ERROR_SUCCESS){
+            RegSetValueExA(registry, name_input->GetValue().c_str(), 0, REG_SZ, (const BYTE*)(value.c_str()), value.size()+1);
+            wxMessageBox("Successfully create block rule", "Success add new rule", wxOK | wxICON_INFORMATION);
+            ID_FwRule.clear();
+            main_form->list_blocked->Clear();
+            get_blocked_list();   
+            RegCloseKey(registry);
+            this->Close();
+            this->Destroy();
+        }
+    }
+}
+
 //close dialog form if press cancel button
 void firewall_dialog :: close_dialog(wxCommandEvent &e)
 {
     dialog_form->Close();
     dialog_form->Destroy();
+}
+
+void main_window :: delete_fwrule(wxCommandEvent &e)
+{
+    HKEY registry;
+    if (e.GetSelection() != -1){
+        if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\", 0, KEY_ALL_ACCESS, &registry) == ERROR_SUCCESS){
+            if (RegDeleteValueA(registry, ID_FwRule.at(list_blocked->GetSelection()).c_str()) == ERROR_SUCCESS){
+                wxMessageBox("Successfully delete block rule", "Success deleted", wxOK | wxICON_INFORMATION);   
+            }
+            RegCloseKey(registry);
+        }
+    }
+
+    ID_FwRule.clear();
+    list_blocked->Clear();
+    get_blocked_list();
+}
+
+void main_window :: refresh_list(wxCommandEvent &e)
+{
+    ID_FwRule.clear();
+    list_blocked->Clear();
+    get_blocked_list();
 }
 
 //get adapter DNS setiings automatic or custom
@@ -182,8 +277,7 @@ void main_window :: get_data_selected(wxCommandEvent &e)
         if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, paths.c_str() , 0, KEY_READ, &hKey) == ERROR_SUCCESS)
         {
 
-		    if (RegQueryValueExA(hKey, "NameServer", NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS)
-		    {
+		    if (RegQueryValueExA(hKey, "NameServer", NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
                 DNS = lpData;
 			    if (DNS.empty())
                 {
@@ -222,8 +316,7 @@ void main_window :: get_data_selected(wxCommandEvent &e)
         customdnsserver->Enable();
         apply->Enable();
         reset->Enable();
-    }else
-    {
+    }else{
         defaultdns->SetValue(false);
         defaultdns->Disable();
         customdnsserver->SetValue(false);
@@ -235,8 +328,6 @@ void main_window :: get_data_selected(wxCommandEvent &e)
         apply->Disable();
         reset->Disable();
     }
-    
-    
 }
 
 //setting for automatic dns configuration
@@ -262,8 +353,7 @@ void main_window :: apply_dns_conf(wxCommandEvent &e){
     string  DNS_list = "";
     HKEY hKey;
     
-    if (prefereddnsinput->GetValue() != "example 8.8.8.8")
-    {
+    if (prefereddnsinput->GetValue() != "example 8.8.8.8"){
         DNS_list = prefereddnsinput->GetValue().ToStdString();
         if (alternatednsinput->GetValue() != "example 1.1.1.1" and alternatednsinput->GetValue() != "")
         {
@@ -279,6 +369,7 @@ void main_window :: apply_dns_conf(wxCommandEvent &e){
         wxBeginBusyCursor();
         Sleep(2000);
         wxEndBusyCursor();
+        wxMessageBox("Successfully configured DNS for this interface :)", "Success configuration", wxOK | wxICON_INFORMATION);
         apply->Enable();
     }
 }
@@ -290,23 +381,22 @@ void main_window :: reset_dns_conf(wxCommandEvent &e){
     string  DNS_list = "";
     HKEY hKey;
 
-    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, paths.c_str() , 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS)
-    {
-        apply->Disable();
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, paths.c_str() , 0, KEY_SET_VALUE, &hKey) == ERROR_SUCCESS){
+        reset->Disable();
         RegSetValueExA(hKey, "NameServer", 0, REG_SZ, (LPBYTE)(DNS_list.c_str()), sizeof(DNS_list));
         RegCloseKey (hKey);
+        wxBeginBusyCursor();
+        Sleep(2000);
+        wxEndBusyCursor();
+        wxMessageBox("Successfully reset DNS to automatic(DHCP) for this interface", "Reset to Automatic", wxOK | wxICON_INFORMATION);
+        defaultdns->SetValue(true);
         prefereddnsinput->SetLabel("example 8.8.8.8");
         prefereddnsinput->Disable();
         alternatednsinput->SetLabel("example 1.1.1.1");
         alternatednsinput->Disable();
-        defaultdns->SetValue(true);
-        wxBeginBusyCursor();
-        Sleep(2000);
-        wxEndBusyCursor();
-        apply->Enable();
+        reset->Enable();
     }
 }
-
 
 //get windows update status
 string winupadate_isrunning()
@@ -362,6 +452,52 @@ void ui_status_winupdate()
         main_form->statustarget->SetLabel("I don't know");
     }
     main_form->winupdate_vertical->Layout();
+}
+
+void get_blocked_list(){
+    TCHAR achValue[5000];  
+    CHAR lpData[1024]={0};
+    string value_data;
+    string remove = "Name=";
+
+    DWORD cValues; 
+    DWORD i, retCode;
+    DWORD cchValue = 5000;
+    DWORD buffersize = sizeof(lpData);
+ 
+    HKEY registry;
+    if( RegOpenKeyEx( HKEY_LOCAL_MACHINE, TEXT("SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules"), 0, KEY_READ, &registry) == ERROR_SUCCESS){
+        retCode = RegQueryInfoKey(registry, NULL, NULL, NULL, NULL, NULL, NULL, &cValues, NULL, NULL, NULL, NULL);
+
+        if (cValues){
+            for (i=0, retCode==ERROR_SUCCESS; i<cValues; i++){ 
+                cchValue = 5000; 
+                achValue[0] = '\0'; 
+                if (RegEnumValue(registry, i, achValue, &cchValue, NULL, NULL,NULL,NULL) == ERROR_SUCCESS){
+                    if (RegQueryValueExA(registry, achValue, NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
+                        value_data = lpData;
+                        if (value_data.find("Action=Block") != string::npos && value_data.find("Dir=Out") != string::npos){
+                            stringstream s_stream(value_data);
+                            while(s_stream.good()) {
+                                string rule_name;
+                                getline(s_stream, rule_name, '|');
+                                if (rule_name.find("Name=") != string::npos){
+                                    size_t size_data = rule_name.find(remove);
+                                    rule_name.erase(size_data, remove.length());
+
+                                    main_form->list_blocked->Append(rule_name);
+                                    ID_FwRule.push_back(achValue);
+                                }
+                                wxYield();
+                            }     
+                        }
+                    }
+                    wxYield();
+                } 
+            }
+        }
+        RegCloseKey(registry);
+    }
 }
 
 void get_allinterface()
