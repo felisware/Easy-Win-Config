@@ -128,6 +128,7 @@ void main_window :: show_blocking_dialog(wxCommandEvent &e)
     dialog_form->Destroy();
 }
 
+//function to get service information
 void main_window :: action_Clicked(wxCommandEvent &e)
 {
     action->Disable();
@@ -221,6 +222,7 @@ void firewall_dialog :: create_fwrule(wxCommandEvent &e)
         HKEY registry;
         if (name_input->GetValue() != "" && RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\", 0, KEY_SET_VALUE, &registry) == ERROR_SUCCESS){
             RegSetValueExA(registry, name_input->GetValue().c_str(), 0, REG_SZ, (const BYTE*)(value.c_str()), value.size()+1);
+            this->Hide();
             wxMessageBox("Successfully create block rule", "Success add new rule", wxOK | wxICON_INFORMATION);
             ID_FwRule.clear();
             main_form->list_blocked->Clear();
@@ -289,13 +291,19 @@ void main_window :: get_data_selected(wxCommandEvent &e)
                 }else{
                     customdnsserver->SetValue(true);
                     string ip_DNS = "";
-                    for (auto x : DNS){
-                        if (x == ','){
-                            prefereddnsinput->SetLabel(ip_DNS);
-                            ip_DNS = "";
-                        }else{ip_DNS = ip_DNS + x;}
-                        alternatednsinput->SetLabel(ip_DNS);
+                    if (DNS.find(',') != string::npos){
+                        for (auto x : DNS){
+                            if (x == ','){
+                                prefereddnsinput->SetLabel(ip_DNS);
+                                ip_DNS = "";
+                            }else{ip_DNS = ip_DNS + x;}
+                                alternatednsinput->SetLabel(ip_DNS);
+                        }
+                    }else{
+                        prefereddnsinput->SetLabel(DNS);
+                        alternatednsinput->SetLabel("");
                     }
+                    
                     prefereddnsinput->Enable();
                     alternatednsinput->Enable();
                 }
@@ -464,7 +472,8 @@ void get_blocked_list(){
     DWORD i, retCode;
     DWORD cchValue = 5000;
     DWORD buffersize = sizeof(lpData);
- 
+
+    size_t size_data;
     HKEY registry;
     if( RegOpenKeyEx( HKEY_LOCAL_MACHINE, TEXT("SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules"), 0, KEY_READ, &registry) == ERROR_SUCCESS){
         retCode = RegQueryInfoKey(registry, NULL, NULL, NULL, NULL, NULL, NULL, &cValues, NULL, NULL, NULL, NULL);
@@ -474,19 +483,20 @@ void get_blocked_list(){
                 cchValue = 5000; 
                 achValue[0] = '\0'; 
                 if (RegEnumValue(registry, i, achValue, &cchValue, NULL, NULL,NULL,NULL) == ERROR_SUCCESS){
-                    if (RegQueryValueExA(registry, achValue, NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
+                    if (RegQueryValueExA(registry, (LPSTR) achValue, 0, NULL, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
+                        buffersize = sizeof(lpData)+1;
                         value_data = lpData;
                         if (value_data.find("Action=Block") != string::npos && value_data.find("Dir=Out") != string::npos){
                             stringstream s_stream(value_data);
-                            while(s_stream.good()) {
+                            while(s_stream) {
                                 string rule_name;
                                 getline(s_stream, rule_name, '|');
-                                if (rule_name.find("Name=") != string::npos){
-                                    size_t size_data = rule_name.find(remove);
+                                if (rule_name.find(remove) != string::npos){
+                                    size_data = rule_name.find(remove);
                                     rule_name.erase(size_data, remove.length());
 
                                     main_form->list_blocked->Append(rule_name);
-                                    ID_FwRule.push_back(achValue);
+                                    ID_FwRule.push_back((LPSTR)achValue);
                                 }
                                 wxYield();
                             }     

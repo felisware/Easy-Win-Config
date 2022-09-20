@@ -1,3 +1,13 @@
+/**
+ * @file main_window.h
+ * @author han (hans69@felisware.com)
+ * @brief 
+ * @version 1.0
+ * @date 03-09-2022
+ * 
+ * @copyright GNU General Public License v3.0
+ * 
+ */
 #ifndef MAIN_WINDOW_H
 #define MAIN_WINDOW_H
 #include <wx/wx.h>
