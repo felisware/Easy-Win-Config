@@ -1,4 +1,4 @@
-![header](https://raw.githubusercontent.com/felisware/Easy-Win-Config/e58df7ddcd8d562b60401c9dd449a23305c9fc17/Assets/Readme-Image/header.png)
+![header](Assets/Readme-Image/header.png)
 
 ## 🤔What is this?
 **This is a software** or tool to make it easier to configure Windows with just a few clicks. The currently available configurations are **disabling or activating or custom settings windows updates** so that you feel comfortable and not disturbed by sudden updates, **blocking software** from being able to access data out of the network, and being able to use **custom DNS** for your device that **can unblock websites or others**. this software is portable so it can be run directly even on a flash disk provided the operating system must be windows and a 32bit or 64bit cpu.
