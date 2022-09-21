@@ -1,4 +1,5 @@
-![header](Assets\Readme-Image\header.png)
+![header](https://raw.githubusercontent.com/felisware/Easy-Win-Config/e58df7ddcd8d562b60401c9dd449a23305c9fc17/Assets/Readme-Image/header.png)
+
 ## 🤔What is this?
 **This is a software** or tool to make it easier to configure Windows with just a few clicks. The currently available configurations are **disabling or activating or custom settings windows updates** so that you feel comfortable and not disturbed by sudden updates, **blocking software** from being able to access data out of the network, and being able to use **custom DNS** for your device that **can unblock websites or others**. this software is portable so it can be run directly even on a flash disk provided the operating system must be windows and a 32bit or 64bit cpu.
 
@@ -11,26 +12,20 @@
     </a>
 </p>
 
-<h3>
 ### 📷Screenshoot
 <p align="center">
     <img src="Assets\Readme-Image\screenshot 1.png">
     <img src="Assets\Readme-Image\screenshot 2.png">
     <img src="Assets\Readme-Image\screenshot 3.png">
 </p>
-</h3>
 
-<h3>
 ### 🛠️How to use
 - make sure you are using windows xp or later and cpu 32bit or 64bit
 - download software from the download button at the top of the page
 - run as usual (double click)
-</h3>
 
-<h3>
 ### 📜Release History
-[First Release v2022 (SADCAT)](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)
-
+[First Release v2022(SADCAT)](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)
 ### ⚙️How to build
 1. what you need is Compiler, Vscode, and wxwidgets library (static or dynamic)
 2. adjust the settings in the `.vscode\c_cpp_properties.json`
@@ -69,4 +64,3 @@ Wxwidgets: `wxmsw32u_core` `wxbase32u` `wxpng` `wxzlib`
 **note**: the number 32 is adjusted to the version of wxwigets you have.
 
 Windows: if you use Wxwidgets dynamic link to `iphlpapi` and if you use Wxwidgets static link list is `comdlg32` `gdi32` `comctl32` `ole32` `oleaut32` `dmoguids` `uuid` `winspool` `z` `uxtheme` `oleacc` `shlwapi` `version` `iphlpapi`
-</h3>
