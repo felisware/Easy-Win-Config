@@ -7,7 +7,7 @@
     <a href="https://www.mediafire.com/file/3oslawcy7tj8cfj/Easy_Win_Config_32Bit.exe/file">
         <img src="https://img.shields.io/badge/Download-32Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
-    <a href="https://img.shields.io/badge/Download-64Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white)](https://www.mediafire.com/file/psd0uvostd27w4w/Easy_Win_Config_64Bit.exe/file">
+    <a href="https://www.mediafire.com/file/psd0uvostd27w4w/Easy_Win_Config_64Bit.exe/file">
         <img src="https://img.shields.io/badge/Download-64Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
 </p>
