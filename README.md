@@ -4,10 +4,10 @@
 **This is a software** or tool to make it easier to configure Windows with just a few clicks. The currently available configurations are **disabling or activating or custom settings windows updates** so that you feel comfortable and not disturbed by sudden updates, **blocking software** from being able to access data out of the network, and being able to use **custom DNS** for your device that **can unblock websites or others**. this software is portable so it can be run directly even on a flash disk provided the operating system must be windows and a 32bit or 64bit cpu.
 
 <p align="center">
-    <a href="https://www.mediafire.com/file/3oslawcy7tj8cfj/Easy_Win_Config_32Bit.exe/file">
+    <a href="https://carapedi.id/EasyWinConfig32">
         <img src="https://img.shields.io/badge/Download-32Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
-    <a href="https://img.shields.io/badge/Download-64Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white)](https://www.mediafire.com/file/psd0uvostd27w4w/Easy_Win_Config_64Bit.exe/file">
+    <a href="https://carapedi.id/EasyWinConfig64">
         <img src="https://img.shields.io/badge/Download-64Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
 </p>
