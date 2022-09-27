@@ -147,9 +147,15 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     customdns_vertical->Add(btn_actionlocation, 0, wxALIGN_RIGHT|wxALL, 5);
     customdns->SetSizer(customdns_vertical);
 
-    //this my website link :)
-    wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "https://...", wxDefaultPosition, wxDefaultSize);
+    //footer
+    wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "www.felisware.com", wxDefaultPosition, wxDefaultSize);
+    wxStaticText *city = new wxStaticText(this, wxID_ANY, "Tegal, Center Java, Indonesia", wxDefaultPosition, wxDefaultSize);
+    wxBoxSizer *footers = new wxBoxSizer(wxHORIZONTAL);
+    footers->Add(myweb, 0, wxALL, 5);
+    footers->AddStretchSpacer();
+    footers->Add(city, 0, wxALL, 5);
+
     mainsizer->Add(pagesystem, 1, wxEXPAND);
-    mainsizer->Add(myweb, 0, wxALIGN_BOTTOM|wxALL, 5);
+    mainsizer->Add(footers, 0, wxEXPAND|wxALL, 5);
     this->SetSizer(mainsizer);
 }
