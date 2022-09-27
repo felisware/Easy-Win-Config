@@ -147,6 +147,16 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     customdns_vertical->Add(btn_actionlocation, 0, wxALIGN_RIGHT|wxALL, 5);
     customdns->SetSizer(customdns_vertical);
 
+    //create page donation
+    wxPanel *donate = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    donate->SetBackgroundColour(dark);
+    donate->SetForegroundColour(green);
+    donate->SetFont(default_font);
+    pagesystem->AddPage(donate, "Donate");
+    wxBoxSizer *donate_vertical = new wxBoxSizer(wxVERTICAL);
+    
+
+
     //footer
     wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "www.felisware.com", wxDefaultPosition, wxDefaultSize);
     wxStaticText *city = new wxStaticText(this, wxID_ANY, "Tegal, Center Java, Indonesia", wxDefaultPosition, wxDefaultSize);
@@ -156,6 +166,6 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     footers->Add(city, 0, wxALL, 5);
 
     mainsizer->Add(pagesystem, 1, wxEXPAND);
-    mainsizer->Add(footers, 0, wxEXPAND|wxALL, 5);
+    mainsizer->Add(footers, 0, wxEXPAND|wxALL, 0);
     this->SetSizer(mainsizer);
 }
