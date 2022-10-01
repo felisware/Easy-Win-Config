@@ -148,14 +148,31 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     customdns->SetSizer(customdns_vertical);
 
     //create page donation
-    wxPanel *donate = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    wxPanel *donate = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     donate->SetBackgroundColour(dark);
     donate->SetForegroundColour(green);
     donate->SetFont(default_font);
     pagesystem->AddPage(donate, "Donate");
     wxBoxSizer *donate_vertical = new wxBoxSizer(wxVERTICAL);
-    
-
+    wxBoxSizer *paypal_horizontal = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *paypal = new wxStaticText(donate, wxID_ANY, "Paypal ", wxDefaultPosition, wxDefaultSize);
+    paypal->SetFont(title_font);
+    paypal_horizontal->Add(paypal, 0, wxALL, 5);
+    wxHyperlinkCtrl *paypal_link = new wxHyperlinkCtrl(donate, wxID_ANY, "Admin Hanif", "https://paypal.me/felisware?country.x=ID&locale.x=id_ID", wxDefaultPosition, wxDefaultSize);
+    paypal_link->SetFont(title_font);
+    paypal_horizontal->Add(paypal_link, 0, wxALL, 5);
+    wxBoxSizer *eth_horizontal = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *eth = new wxStaticText(donate, wxID_ANY, "Ethereum", wxDefaultPosition, wxDefaultSize);
+    eth->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Segoe UI")));
+    eth_horizontal->Add(eth, 0, wxALL, 5);
+    wxTextCtrl *address = new wxTextCtrl(donate, wxID_ANY, "0x764822c3e7991a951ce06279D4088E7D1eB1E934", wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+    address->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Segoe UI")));
+    eth_horizontal->Add(address, 1, wxALL, 5);
+    donate_vertical->AddStretchSpacer();
+    donate_vertical->Add(paypal_horizontal, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    donate_vertical->Add(eth_horizontal, 0, wxEXPAND|wxALL, 5);
+    donate_vertical->AddStretchSpacer();
+    donate->SetSizer(donate_vertical);
 
     //footer
     wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "www.felisware.com", wxDefaultPosition, wxDefaultSize);
