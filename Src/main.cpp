@@ -34,6 +34,7 @@ string winupadate_isrunning();
 void ui_status_winupdate();
 void get_blocked_list();
 void get_allinterface();
+void is_booted();
 
 bool program :: OnInit()
 {
@@ -76,7 +77,7 @@ void main_window :: change_page(wxBookCtrlEvent &e)
     if(e.GetSelection() == 0){//this winupdate page
         winupdate_status = winupadate_isrunning();
         ui_status_winupdate();
-    }else if (e.GetSelection() == 1){//this block 
+    }else if (e.GetSelection() == 1){//this block page
         ID_FwRule.clear();
         list_blocked->Clear();
         get_blocked_list();
@@ -95,6 +96,8 @@ void main_window :: change_page(wxBookCtrlEvent &e)
         apply->Disable();
         reset->Disable();
         get_allinterface();
+    }else if (e.GetSelection() == 3){//this boot checkdisk page
+        is_booted();
     }
 }
 
@@ -534,4 +537,31 @@ void get_allinterface()
         free(pAdapter);
         main_form->interfaces->Enable();
     }
+}
+
+void is_booted()
+{
+    string value = "";
+
+    //get value registry
+    
+
+    if(value.find("autocheck autochk") != string::npos){
+        main_form->info->SetLabel("check disk will run before booting into windows");
+        main_form->turn->SetLabel("Turn Off");
+        main_form->turn->SetForegroundColour(red);
+        main_form->turn->SetBitmap(wxBITMAP_PNG(turn-off));
+        main_form->turn->Enable();
+    }else if (not value.empty() && value.find("autocheck autochk") == string::npos){
+        main_form->info->SetLabel("check disk will not run before booting into windows");
+        main_form->turn->SetLabel("Turn On");
+        main_form->turn->SetForegroundColour(green);
+        main_form->turn->SetBitmap(wxBITMAP_PNG(turn-on));
+        main_form->turn->Enable();
+    }else{
+        main_form->info->SetLabel("Error cannot get value BootExecute");
+        main_form->info->SetForegroundColour(red);
+        main_form->turn->SetLabel("I don't know");
+    }
+    main_form->checkdisk_vertical->Layout();   
 }

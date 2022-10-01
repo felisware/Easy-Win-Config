@@ -42,6 +42,10 @@ class main_window : public wxFrame
     wxTextCtrl *alternatednsinput;
     wxButton *apply;
     wxButton *reset;
+    //boot checkdisk
+    wxBoxSizer *checkdisk_vertical;
+    wxStaticText *info;
+    wxButton *turn;
 
     main_window(const wxString &title, const wxPoint &pos, const wxSize &size);
 

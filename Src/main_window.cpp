@@ -154,11 +154,18 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     checkdisk->SetForegroundColour(yellow);
     checkdisk->SetFont(default_font);
     pagesystem->AddPage(checkdisk, "Boot Checkdisk");
-    wxBoxSizer *checkdisk_vertical = new wxBoxSizer(wxVERTICAL);
+    checkdisk_vertical = new wxBoxSizer(wxVERTICAL);
     wxStaticText *checkdisk_title = new wxStaticText(checkdisk, wxID_ANY, "Booting Checkdisk", wxDefaultPosition, wxDefaultSize);
     checkdisk_title->SetFont(title_font);
     checkdisk_vertical->Add(checkdisk_title, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 20);
-    
+    info = new wxStaticText(checkdisk, wxID_ANY, "Loading...", wxDefaultPosition, wxDefaultSize);
+    info->SetForegroundColour(wxColour(255,255,255));
+    checkdisk_vertical->Add(info, 0, wxALIGN_CENTRE_HORIZONTAL|wxALL, 5);
+    turn = new wxButton(checkdisk, wxID_ANY, "Loading", wxDefaultPosition, wxDefaultSize);
+    turn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
+    turn->Disable();
+    checkdisk_vertical->AddSpacer(10);
+    checkdisk_vertical->Add(turn, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     checkdisk->SetSizer(checkdisk_vertical);
 
     //create page donation
