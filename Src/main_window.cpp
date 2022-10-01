@@ -161,7 +161,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     info = new wxStaticText(checkdisk, wxID_ANY, "Loading...", wxDefaultPosition, wxDefaultSize);
     info->SetForegroundColour(wxColour(255,255,255));
     checkdisk_vertical->Add(info, 0, wxALIGN_CENTRE_HORIZONTAL|wxALL, 5);
-    turn = new wxButton(checkdisk, wxID_ANY, "Loading", wxDefaultPosition, wxDefaultSize);
+    turn = new wxButton(checkdisk, wxID_ANY, "Loading", wxDefaultPosition, normal_btn);
     turn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
     turn->Disable();
     checkdisk_vertical->AddSpacer(10);

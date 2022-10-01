@@ -541,27 +541,29 @@ void get_allinterface()
 
 void is_booted()
 {
-    string value = "";
+    CHAR lpData[1024]={0};
+    DWORD buffersize = sizeof(lpData);
+    HKEY registry;
+    string value;
 
-    //get value registry
-    
+    if(RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Session Manager", 0, KEY_QUERY_VALUE, &registry) == ERROR_SUCCESS){
+        if(RegQueryValueExA(registry, "BootExecute", NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
+            value = lpData;
+        }
+    }
 
     if(value.find("autocheck autochk") != string::npos){
         main_form->info->SetLabel("check disk will run before booting into windows");
+        main_form->info->SetForegroundColour(green);
         main_form->turn->SetLabel("Turn Off");
-        main_form->turn->SetForegroundColour(red);
         main_form->turn->SetBitmap(wxBITMAP_PNG(turn-off));
         main_form->turn->Enable();
-    }else if (not value.empty() && value.find("autocheck autochk") == string::npos){
+    }else if (value.find("autocheck autochk") == string::npos || value.empty()){
         main_form->info->SetLabel("check disk will not run before booting into windows");
+        main_form->info->SetForegroundColour(red);
         main_form->turn->SetLabel("Turn On");
-        main_form->turn->SetForegroundColour(green);
         main_form->turn->SetBitmap(wxBITMAP_PNG(turn-on));
         main_form->turn->Enable();
-    }else{
-        main_form->info->SetLabel("Error cannot get value BootExecute");
-        main_form->info->SetForegroundColour(red);
-        main_form->turn->SetLabel("I don't know");
     }
-    main_form->checkdisk_vertical->Layout();   
+    main_form->checkdisk_vertical->Layout();
 }
