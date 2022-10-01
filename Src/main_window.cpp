@@ -8,6 +8,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     wxColour red = wxColour(247, 23, 53);
     wxColour green = wxColour(29, 215, 85);
     wxColour blue = wxColour(0, 167, 225);
+    wxColour yellow = wxColour(255,228,51);
 
     //button size
     wxSize normal_btn = wxSize(75,-1);
@@ -94,7 +95,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     blocking->SetSizer(blocking_vertical);
 
     //create page custom dns
-    wxPanel *customdns = new wxPanel(pagesystem,wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    wxPanel *customdns = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     customdns->SetBackgroundColour(dark);
     customdns->SetForegroundColour(green);
     customdns->SetFont(default_font);
@@ -146,6 +147,19 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     btn_actionlocation->Add(reset, 0, wxALL, 5);
     customdns_vertical->Add(btn_actionlocation, 0, wxALIGN_RIGHT|wxALL, 5);
     customdns->SetSizer(customdns_vertical);
+
+    //create page Checkdisk
+    wxPanel *checkdisk = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    checkdisk->SetBackgroundColour(dark);
+    checkdisk->SetForegroundColour(yellow);
+    checkdisk->SetFont(default_font);
+    pagesystem->AddPage(checkdisk, "Boot Checkdisk");
+    wxBoxSizer *checkdisk_vertical = new wxBoxSizer(wxVERTICAL);
+    wxStaticText *checkdisk_title = new wxStaticText(checkdisk, wxID_ANY, "Booting Checkdisk", wxDefaultPosition, wxDefaultSize);
+    checkdisk_title->SetFont(title_font);
+    checkdisk_vertical->Add(checkdisk_title, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 20);
+    
+    checkdisk->SetSizer(checkdisk_vertical);
 
     //create page donation
     wxPanel *donate = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
