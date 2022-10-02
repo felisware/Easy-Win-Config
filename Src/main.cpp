@@ -425,7 +425,6 @@ void main_window :: set_boot_ckhdisk(wxCommandEvent &e)
         turn->Disable();
         RegSetValueExA(registry, "BootExecute", 0, REG_MULTI_SZ, (BYTE *) command.c_str(), strlen(command.c_str()) + 1);
         RegCloseKey (registry);
-        wxMessageBox("Successfully set Boot CheckDisk", "Success configuration", wxOK | wxICON_INFORMATION);
         is_booted();
     }  
 }
