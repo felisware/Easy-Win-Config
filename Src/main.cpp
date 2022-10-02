@@ -62,6 +62,8 @@ bool program :: OnInit()
     main_form->customdnsserver->Bind(wxEVT_RADIOBUTTON, main_window :: is_custom, main_form);
     main_form->apply->Bind(wxEVT_BUTTON, main_window :: apply_dns_conf, main_form);
     main_form->reset->Bind(wxEVT_BUTTON, main_window :: reset_dns_conf, main_form);
+    //boot checkdisk page
+    main_form->turn->Bind(wxEVT_BUTTON, main_window :: set_boot_ckhdisk, main_form);
 
     //show main form GUI
     main_form->Show();
@@ -409,6 +411,25 @@ void main_window :: reset_dns_conf(wxCommandEvent &e){
     }
 }
 
+void main_window :: set_boot_ckhdisk(wxCommandEvent &e)
+{
+    HKEY registry;
+    string command;
+
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\", 0, KEY_SET_VALUE, &registry) == ERROR_SUCCESS){
+        if (turn->GetLabel() == "Turn OFF"){
+            command = "";
+        }else if (turn->GetLabel() == "Turn ON"){
+            command = "autocheck autochk *";
+        }
+        turn->Disable();
+        RegSetValueExA(registry, "BootExecute", 0, REG_MULTI_SZ, (BYTE *) command.c_str(), strlen(command.c_str()) + 1);
+        RegCloseKey (registry);
+        wxMessageBox("Successfully set Boot CheckDisk", "Success configuration", wxOK | wxICON_INFORMATION);
+        is_booted();
+    }  
+}
+
 //get windows update status
 string winupadate_isrunning()
 {
@@ -544,24 +565,25 @@ void is_booted()
     CHAR lpData[1024]={0};
     DWORD buffersize = sizeof(lpData);
     HKEY registry;
-    string value;
+    string Bootcommand;
 
     if(RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Session Manager", 0, KEY_QUERY_VALUE, &registry) == ERROR_SUCCESS){
         if(RegQueryValueExA(registry, "BootExecute", NULL, 0, (LPBYTE) lpData, &buffersize) == ERROR_SUCCESS){
-            value = lpData;
+            Bootcommand = lpData;
         }
+        RegCloseKey(registry);
     }
 
-    if(value.find("autocheck autochk") != string::npos){
+    if(Bootcommand.find("autocheck autochk *") != string::npos){
         main_form->info->SetLabel("check disk will run before booting into windows");
         main_form->info->SetForegroundColour(green);
-        main_form->turn->SetLabel("Turn Off");
+        main_form->turn->SetLabel("Turn OFF");
         main_form->turn->SetBitmap(wxBITMAP_PNG(turn-off));
         main_form->turn->Enable();
-    }else if (value.find("autocheck autochk") == string::npos || value.empty()){
+    }else if (Bootcommand.find("autocheck autochk *") == string::npos || Bootcommand.empty()){
         main_form->info->SetLabel("check disk will not run before booting into windows");
         main_form->info->SetForegroundColour(red);
-        main_form->turn->SetLabel("Turn On");
+        main_form->turn->SetLabel("Turn ON");
         main_form->turn->SetBitmap(wxBITMAP_PNG(turn-on));
         main_form->turn->Enable();
     }
