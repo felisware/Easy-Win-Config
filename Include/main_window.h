@@ -61,6 +61,7 @@ class main_window : public wxFrame
     void is_custom(wxCommandEvent &e);//setting for custom dns configuration
     void apply_dns_conf(wxCommandEvent &e);//update dns configuration on regedit
     void reset_dns_conf(wxCommandEvent &e);//reset dns configuration on regedit to automatic or without nameserver
+    void set_boot_ckhdisk(wxCommandEvent &e);//set registry for boot checkdisk
 };
 
 #endif
