@@ -8,6 +8,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     wxColour red = wxColour(247, 23, 53);
     wxColour green = wxColour(29, 215, 85);
     wxColour blue = wxColour(0, 167, 225);
+    wxColour yellow = wxColour(255,228,51);
 
     //button size
     wxSize normal_btn = wxSize(75,-1);
@@ -94,7 +95,7 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     blocking->SetSizer(blocking_vertical);
 
     //create page custom dns
-    wxPanel *customdns = new wxPanel(pagesystem,wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    wxPanel *customdns = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     customdns->SetBackgroundColour(dark);
     customdns->SetForegroundColour(green);
     customdns->SetFont(default_font);
@@ -147,15 +148,52 @@ main_window :: main_window(const wxString &title, const wxPoint &pos, const wxSi
     customdns_vertical->Add(btn_actionlocation, 0, wxALIGN_RIGHT|wxALL, 5);
     customdns->SetSizer(customdns_vertical);
 
+    //create page Checkdisk
+    wxPanel *checkdisk = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    checkdisk->SetBackgroundColour(dark);
+    checkdisk->SetForegroundColour(yellow);
+    checkdisk->SetFont(default_font);
+    pagesystem->AddPage(checkdisk, "Boot Checkdisk");
+    checkdisk_vertical = new wxBoxSizer(wxVERTICAL);
+    wxStaticText *checkdisk_title = new wxStaticText(checkdisk, wxID_ANY, "Booting Checkdisk", wxDefaultPosition, wxDefaultSize);
+    checkdisk_title->SetFont(title_font);
+    checkdisk_vertical->Add(checkdisk_title, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 20);
+    info = new wxStaticText(checkdisk, wxID_ANY, "Loading...", wxDefaultPosition, wxDefaultSize);
+    info->SetForegroundColour(wxColour(255,255,255));
+    checkdisk_vertical->Add(info, 0, wxALIGN_CENTRE_HORIZONTAL|wxALL, 5);
+    turn = new wxButton(checkdisk, wxID_ANY, "Loading", wxDefaultPosition, wxDefaultSize);
+    turn->SetBackgroundColour(wxSystemSettings :: GetColour( wxSYS_COLOUR_BTNFACE));
+    turn->Disable();
+    checkdisk_vertical->AddSpacer(10);
+    checkdisk_vertical->Add(turn, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    checkdisk->SetSizer(checkdisk_vertical);
+
     //create page donation
-    wxPanel *donate = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    wxPanel *donate = new wxPanel(pagesystem, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     donate->SetBackgroundColour(dark);
     donate->SetForegroundColour(green);
     donate->SetFont(default_font);
     pagesystem->AddPage(donate, "Donate");
     wxBoxSizer *donate_vertical = new wxBoxSizer(wxVERTICAL);
-    
-
+    wxBoxSizer *paypal_horizontal = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *paypal = new wxStaticText(donate, wxID_ANY, "Paypal ", wxDefaultPosition, wxDefaultSize);
+    paypal->SetFont(title_font);
+    paypal_horizontal->Add(paypal, 0, wxALL, 5);
+    wxHyperlinkCtrl *paypal_link = new wxHyperlinkCtrl(donate, wxID_ANY, "Admin Hanif", "https://paypal.me/felisware?country.x=ID&locale.x=id_ID", wxDefaultPosition, wxDefaultSize);
+    paypal_link->SetFont(title_font);
+    paypal_horizontal->Add(paypal_link, 0, wxALL, 5);
+    wxBoxSizer *eth_horizontal = new wxBoxSizer(wxHORIZONTAL);
+    wxStaticText *eth = new wxStaticText(donate, wxID_ANY, "Ethereum", wxDefaultPosition, wxDefaultSize);
+    eth->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Segoe UI")));
+    eth_horizontal->Add(eth, 0, wxALL, 5);
+    wxTextCtrl *address = new wxTextCtrl(donate, wxID_ANY, "0x764822c3e7991a951ce06279D4088E7D1eB1E934", wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+    address->SetFont(wxFont(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Segoe UI")));
+    eth_horizontal->Add(address, 1, wxALL, 5);
+    donate_vertical->AddStretchSpacer();
+    donate_vertical->Add(paypal_horizontal, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    donate_vertical->Add(eth_horizontal, 0, wxEXPAND|wxALL, 5);
+    donate_vertical->AddStretchSpacer();
+    donate->SetSizer(donate_vertical);
 
     //footer
     wxHyperlinkCtrl *myweb = new wxHyperlinkCtrl(this,wxID_ANY, "From Felisware.com", "www.felisware.com", wxDefaultPosition, wxDefaultSize);
