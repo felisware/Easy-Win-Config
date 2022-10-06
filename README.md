@@ -4,20 +4,22 @@
 **This is a software** or tool to make it easier to configure Windows with just a few clicks. The currently available configurations are **disabling or activating or custom settings windows updates** so that you feel comfortable and not disturbed by sudden updates, **blocking software** from being able to access data out of the network, and being able to use **custom DNS** for your device that **can unblock websites or others**, set whether you want to run check disk when starting windows or **turn off check disk when starting windows**. this software is portable so it can be run directly even on a flash disk provided the operating system must be windows and a 32bit or 64bit cpu.
 
 <p align="center">
-    <a href="https://carapedi.id/EasyWinConfig32">
+    <a href="https://safefileku.com/download/krFtHUCRYFWiJwf">
         <img src="https://img.shields.io/badge/Download-32Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
-    <a href="https://carapedi.id/EasyWinConfig64">
+    <a href="https://safefileku.com/download/8opZ6FBWRWz2lFA">
         <img src="https://img.shields.io/badge/Download-64Bits-brightgreen?style=for-the-badge&logo=mediafire&logoColor=white">
     </a>
 </p>
 
 ### 📷Screenshoot
-![header](Assets\Readme-Image\screenshot-1.png)
-![header](Assets\Readme-Image\screenshot-2.png)
-![header](Assets\Readme-Image\screenshot-3.png)
-![header](Assets\Readme-Image\screenshot-4.png)
-![header](Assets\Readme-Image\screenshot-5.png)
+<p align="center">
+    <img src="Assets\Readme-Image\screenshot-1.png">
+    <img src="Assets\Readme-Image\screenshot-2.png">
+    <img src="Assets\Readme-Image\screenshot-3.png">
+    <img src="Assets\Readme-Image\screenshot-4.png">
+    <img src="Assets\Readme-Image\screenshot-5.png">
+</p>
 
 ### 🛠️How to use
 - make sure you are using windows xp or later and cpu 32bit or 64bit
@@ -27,8 +29,8 @@
 ### 📜Release History
 |Date|Version|Codename|
 |-----------|---------|----------|
-|27 Sep 2022|[v2022](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)|[SADCAT](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)|
-|3 Oct 2022|[v2022.10](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022.10)|[HACKTOBER FEST 2022](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022.10)|
+|21 Sep 2022|[v2022](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)|[SADCAT](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022)|
+|10 Oct 2022|[v2022.10](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022.10)|[HACKTOBER FEST 2022](https://github.com/felisware/Easy-Win-Config/releases/tag/v2022.10)|
 
 ### ⚙️How to build
 1. what you need is Compiler, Vscode, and wxwidgets library (static or dynamic)
