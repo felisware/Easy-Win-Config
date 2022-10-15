@@ -3,8 +3,49 @@
 	"tasks": [
 
 		{
-			"type": "process",
 			"label": "Build 32Bit",
+			"dependsOn": ["Compile Resources 32Bit", "Compile software 32Bit"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+		{
+			"label": "Build 64Bit",
+			"dependsOn": ["Compile Resources 64Bit", "Compile software 64Bit"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+
+		{
+			"type": "process",
+			"label": "Compile Resources 32Bit",
+			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
+			"args": [
+				"-i", "${workspaceFolder}\\resources.rc",
+				"-o", "${workspaceFolder}\\Assets\\Bin\\resources32.o",
+				"-I", "${env:WXWIN}\\include",
+				"--target=pe-i386"
+			],
+		},
+
+		{
+			"type": "process",
+			"label": "Compile Resources 64Bit",
+			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
+			"args": [
+				"-i", "${workspaceFolder}\\resources.rc",
+				"-o", "${workspaceFolder}\\Assets\\Bin\\resources64.o",
+				"-I", "${env:WXWIN}\\include"
+			],
+		},
+
+		{
+			"type": "process",
+			"label": "Compile software 32Bit",
 			"command": "g++.exe",
 			"args": [
 				"${workspaceFolder}\\Src\\*.cpp", "${workspaceFolder}\\Assets\\Bin\\resources32.o",
@@ -23,15 +64,11 @@
 				"-lwxmsw32u_core", "-lwxbase32u", "-lwxpng", "-lwxzlib",
 				"-lcomdlg32", "-lgdi32", "-lcomctl32", "-lole32", "-loleaut32", "-ldmoguids", "-luuid", "-lwinspool", "-lz", "-luxtheme", "-loleacc", "-lshlwapi", "-lversion", "-liphlpapi"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
 		},
 
 		{
 			"type": "process",
-			"label": "Build 64Bit",
+			"label": "Compile software 64Bit",
 			"command": "g++.exe",
 			"args": [
 				"${workspaceFolder}\\Src\\*.cpp", "${workspaceFolder}\\Assets\\Bin\\resources64.o",
@@ -50,41 +87,6 @@
 				"-lwxmsw32u_core", "-lwxbase32u", "-lwxpng", "-lwxzlib",
 				"-lcomdlg32", "-lgdi32", "-lcomctl32", "-lole32", "-loleaut32", "-ldmoguids", "-luuid", "-lwinspool", "-lz", "-luxtheme", "-loleacc", "-lshlwapi", "-lversion", "-liphlpapi"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-
-		{
-			"type": "process",
-			"label": "Compile Resources 32Bit",
-			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
-			"args": [
-				"-i", "${workspaceFolder}\\resources.rc",
-				"-o", "${workspaceFolder}\\Assets\\Bin\\resources32.o",
-				"-I", "${env:WXWIN}\\include",
-				"--target=pe-i386"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-
-		{
-			"type": "process",
-			"label": "Compile Resources 64Bit",
-			"command": "C:\\PROGRA~1\\mingw64\\bin\\windres.exe",
-			"args": [
-				"-i", "${workspaceFolder}\\resources.rc",
-				"-o", "${workspaceFolder}\\Assets\\Bin\\resources64.o",
-				"-I", "${env:WXWIN}\\include"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
 		}
 	]
 }

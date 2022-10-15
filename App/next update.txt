@@ -1,4 +1,0 @@
-2023
-1. fix memory leak
-2. create Cmake build & doxygen documentation
-3. new features "reveal saved wifi password"

@@ -3,16 +3,22 @@
         {
             "name": "Win32",
             "includePath": [
+                //add your wxwidgets library include (manual)
                 "${env:WXWIN}\\include",
+                //you can use any CPU type (32/64/arm)
                 "${env:WXWIN}\\lib\\gcc_lib_64\\mswu",
+
+                //this default (automatic)
                 "${workspaceFolder}\\include",
                 "${workspaceFolder}/**"
             ],
+
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
+            
             "compilerPath": "C:/Program Files/mingw64/bin/g++.exe",
             "cStandard": "gnu17",
             "cppStandard": "gnu++17",
